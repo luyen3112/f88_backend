@@ -9,3 +9,4 @@ tqdm
 streamlit
 joblib
 dill
+fastparquet==2022.12.0
