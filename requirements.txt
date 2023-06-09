@@ -8,5 +8,4 @@ seaborn
 scikit-learn
 tqdm
 streamlit==1.15.2
-numpy
 joblib
