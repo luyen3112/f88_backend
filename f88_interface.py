@@ -19,7 +19,7 @@ from sklearn.model_selection import train_test_split
 import joblib
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # CPU is faster than GPU on structured data
 
-st.set_page_config(page_title="Home Page",layout="wide")
+st.set_page_config(page_title="Home Page",layout="wide", page_icon="https://f88.vn/img/footer/logo-f88.svg")
 st.title("Non-Performing Customer Prediction")
 st.image("""https://th.bing.com/th/id/R.1e470560b960cb6693e8e77a30f321b7?rik=ZX2Z8oUcGWZ8Tw&riu=http%3a%2f%2fthicao.com%2fwp-content%2fuploads%2f2019%2f03%2fthiet-ke-logo-nhan-dien-thuong-hieu-f88-1.jpg&ehk=TWX1hBbDVKzNVECDzITK22L1TnvedmJbIXB%2fYcw2lgg%3d&risl=&pid=ImgRaw&r=0""", width=620)
 st.header('Enter the characteristics of the customer:')
