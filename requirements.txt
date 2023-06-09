@@ -10,6 +10,3 @@ tqdm
 streamlit
 numpy
 joblib
-pickle
-os
-sys
