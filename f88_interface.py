@@ -40,11 +40,10 @@ sc = joblib.load('w/std_scaler.save')
 @st.cache_data
 def get_data():
     df = pd.read_parquet("final_preprocess.parquet",engine = 'fastparquet')
-    fp_model = pickle.load(open("20230603_003037.pkl", 'rb'))
-    return df, fp_model
+    return df
 
-df,  fp_model= get_data()
-
+df = get_data()
+fp_model = "20230603_003037.pkl"
 df = df[['AREA', 'CATEGORYNAME', 'PAPERTYPE', 'PROVINCE_SHOP',
        'DESCRIPTION_x', 'KENH',
        'LOAI_KHACH_HANG', 'LOAI_HINH_CU_TRU', 'WORKPLACE_CODE',
