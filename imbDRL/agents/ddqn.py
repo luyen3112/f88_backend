@@ -20,8 +20,6 @@ from tf_agents.utils import common
 from tqdm import tqdm
 import sys
 
-sys.path.append(r'C:\Users\luyen\KLTN\fake\imbDRL-master')
-
 class TrainDDQN():
     """Wrapper for DDQN training, validation, saving etc."""
 
