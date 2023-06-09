@@ -35,7 +35,7 @@ st.markdown("""
 min_class = [1]  # Minority classes, same setup as in original paper
 maj_class = [0]  # Majority classes
 
-sc = joblib.load('w\std_scaler.save')
+sc = joblib.load(r'w\std_scaler.save')
 
 @st.cache_data
 def get_data():
