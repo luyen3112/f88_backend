@@ -37,12 +37,7 @@ maj_class = [0]  # Majority classes
 
 sc = joblib.load('w/std_scaler.save')
 
-@st.cache_data
-def get_data():
-    df = pd.read_parquet("final_preprocess.parquet",engine = 'fastparquet')
-    return df
-
-df = get_data()
+df = pd.read_parquet("final_preprocess.parquet",engine = 'fastparquet')
 fp_model = "20230603_003037.pkl"
 df = df[['AREA', 'CATEGORYNAME', 'PAPERTYPE', 'PROVINCE_SHOP',
        'DESCRIPTION_x', 'KENH',
