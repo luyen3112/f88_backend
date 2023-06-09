@@ -1,12 +1,10 @@
-tensorflow>=2.3
-tf_agents>=0.6.0
-numpy==1.24.3
-protobuf==3.19.6
+tensorflow
+tf_agents
 gym
 matplotlib
 pandas
 seaborn
 scikit-learn
 tqdm
-streamlit==1.15.2
+streamlit
 joblib
