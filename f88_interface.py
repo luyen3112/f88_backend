@@ -89,22 +89,22 @@ with st.form(key='my_form'):
        'IS_BAD_DEBT', 'PACKAGE_CODE_F88', 'IS_CUSTOMER_NEW_0_1', 'INCOME', 'MONEY_APPRAISAL', 'AGE'])
         X_test["STATUS"] = 1
 
-        pkl_des = open('w\DESCRIPTION_x.pkl', 'rb')
+        pkl_des = open(r'w\DESCRIPTION_x.pkl', 'rb')
         le_des = pickle.load(pkl_des) 
         pkl_des.close()
         X_test['DESCRIPTION_x'] = le_des.transform(X_test['DESCRIPTION_x'])
 
-        pkl_lp = open('w\LOAN_PURPOSE_NAME.pkl', 'rb')
+        pkl_lp = open(r'w\LOAN_PURPOSE_NAME.pkl', 'rb')
         le_lp = pickle.load(pkl_lp) 
         pkl_lp.close()
         X_test['LOAN_PURPOSE_NAME'] = le_lp.transform(X_test['LOAN_PURPOSE_NAME'])
 
-        pkl_in = open('w\INDUSTRY_NM.pkl', 'rb')
+        pkl_in = open(r'w\INDUSTRY_NM.pkl', 'rb')
         le_in = pickle.load(pkl_in) 
         pkl_in.close()
         X_test['INDUSTRY_NM'] = le_in.transform(X_test['INDUSTRY_NM'])
 
-        pkl_ps = open('w\PROVINCE_SHOP.pkl', 'rb')
+        pkl_ps = open(r'w\PROVINCE_SHOP.pkl', 'rb')
         le_ps = pickle.load(pkl_ps) 
         pkl_ps.close()
         X_test['PROVINCE_SHOP'] = le_ps.transform(X_test['PROVINCE_SHOP'])
