@@ -40,7 +40,7 @@ sc = joblib.load('w/std_scaler.save')
 @st.cache_data
 def get_data():
     df = pd.read_parquet("final_preprocess.parquet",engine = 'fastparquet')
-    fp_model = "20230603_003037.pkl"
+    fp_model = pickle.load(open("20230603_003037.pkl", 'rb'))
     return df, fp_model
 
 df,  fp_model= get_data()
