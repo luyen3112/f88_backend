@@ -39,8 +39,8 @@ sc = joblib.load('w/std_scaler.save')
 
 @st.cache_data
 def get_data():
-    df = pd.read_csv(r"data\final_preprocess.csv")
-    fp_model = r"models\20230603_003037.pkl"
+    df = pd.read_csv("data/final_preprocess.csv")
+    fp_model = "models/20230603_003037.pkl"
     return df, fp_model
 
 df,  fp_model= get_data()
