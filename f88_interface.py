@@ -39,10 +39,10 @@ sc = joblib.load('w/std_scaler.save')
 
 df = pd.read_parquet("final_preprocess.parquet",engine = 'fastparquet')
 fp_model = "20230603_003037.pkl"
-df = df[['AREA', 'CATEGORYNAME', 'PAPERTYPE', 'PROVINCE_SHOP',
-       'DESCRIPTION_x', 'KENH',
-       'LOAI_KHACH_HANG', 'LOAI_HINH_CU_TRU', 'WORKPLACE_CODE',
-       'MARITAL_ID', 'INDUSTRY_NM', 'JOB_NM', 'STATUS',
+df = df[['CREATE_DATE','AREA', 'CATEGORYNAME', 'PAPERTYPE', 'PROVINCE_SHOP',
+       'DESCRIPTION', 'KENH', 'Good_Bad',
+       'LOAI_KHACH_HANG', 'LOAI_HINH_CU_TRU', 'WORKPLACE_TYPE',
+       'MARITAL_STATUS', 'INDUSTRY_NM', 'JOB_NM', 'STATUS',
        'NUMBER_OF_CHILD', 'LOAN_PURPOSE_NAME', 'RESIDENCE_TIME', 'DISTANCE',
        'IS_BAD_DEBT', 'PACKAGE_CODE_F88', 'IS_CUSTOMER_NEW_0_1', 'INCOME', 'MONEY_APPRAISAL', 'AGE']]
 
@@ -55,13 +55,12 @@ def NPL(value):
 with st.form(key='my_form'):
     
     for i in ['AREA', 'CATEGORYNAME', 'PAPERTYPE', 'PROVINCE_SHOP',
-        'DESCRIPTION_x', 'KENH',
-        'LOAI_KHACH_HANG', 'LOAI_HINH_CU_TRU','WORKPLACE_CODE',
-        'INDUSTRY_NM', 'JOB_NM',
+        'DESCRIPTION', 'KENH',
+        'LOAI_KHACH_HANG', 'LOAI_HINH_CU_TRU','WORKPLACE_TYPE',
+        'MARITAL_STATUS','INDUSTRY_NM', 'JOB_NM',
         'NUMBER_OF_CHILD', 'LOAN_PURPOSE_NAME', 'RESIDENCE_TIME',
         'IS_BAD_DEBT', 'PACKAGE_CODE_F88', 'IS_CUSTOMER_NEW_0_1']:
         option = st.selectbox(i, options = df[i].unique(), key = i)
-    option = st.selectbox("MARITAL", options = df["MARITAL_ID"].unique(), key = "MARITAL_ID")
     option = st.number_input('INCOME:', format="%.f", key = 'INCOME')
     option  = st.number_input('MONEY_APPRAISAL:', format="%.f", key = 'MONEY_APPRAISAL')
     option = st.number_input('AGE:', format="%.f", key = 'AGE')
@@ -70,23 +69,23 @@ with st.form(key='my_form'):
     submit_button = st.form_submit_button(label='Submit')
     if submit_button:
         X_test = pd.DataFrame([[st.session_state[i] for i in ['AREA', 'CATEGORYNAME', 'PAPERTYPE', 'PROVINCE_SHOP',
-       'DESCRIPTION_x', 'KENH',
-       'LOAI_KHACH_HANG', 'LOAI_HINH_CU_TRU', 'WORKPLACE_CODE',
-       'MARITAL_ID', 'INDUSTRY_NM', 'JOB_NM',
+       'DESCRIPTION', 'KENH',
+       'LOAI_KHACH_HANG', 'LOAI_HINH_CU_TRU', 'WORKPLACE_TYPE',
+       'MARITAL_STATUS', 'INDUSTRY_NM', 'JOB_NM',
        'NUMBER_OF_CHILD', 'LOAN_PURPOSE_NAME', 'RESIDENCE_TIME', 'DISTANCE',
        'IS_BAD_DEBT', 'PACKAGE_CODE_F88', 'IS_CUSTOMER_NEW_0_1', 'INCOME', 'MONEY_APPRAISAL', 'AGE']]], 
         columns=['AREA', 'CATEGORYNAME', 'PAPERTYPE', 'PROVINCE_SHOP',
-       'DESCRIPTION_x', 'KENH',
-       'LOAI_KHACH_HANG', 'LOAI_HINH_CU_TRU', 'WORKPLACE_CODE',
-       'MARITAL_ID', 'INDUSTRY_NM', 'JOB_NM',
+       'DESCRIPTION', 'KENH',
+       'LOAI_KHACH_HANG', 'LOAI_HINH_CU_TRU', 'WORKPLACE_TYPE',
+       'MARITAL_STATUS', 'INDUSTRY_NM', 'JOB_NM',
        'NUMBER_OF_CHILD', 'LOAN_PURPOSE_NAME', 'RESIDENCE_TIME', 'DISTANCE',
        'IS_BAD_DEBT', 'PACKAGE_CODE_F88', 'IS_CUSTOMER_NEW_0_1', 'INCOME', 'MONEY_APPRAISAL', 'AGE'])
         X_test["STATUS"] = 1
 
-        pkl_des = open('w/DESCRIPTION_x.pkl', 'rb')
+        pkl_des = open('w/DESCRIPTION.pkl', 'rb')
         le_des = pickle.load(pkl_des) 
         pkl_des.close()
-        X_test['DESCRIPTION_x'] = le_des.transform(X_test['DESCRIPTION_x'])
+        X_test['DESCRIPTION'] = le_des.transform(X_test['DESCRIPTION'])
 
         pkl_lp = open('w/LOAN_PURPOSE_NAME.pkl', 'rb')
         le_lp = pickle.load(pkl_lp) 
@@ -103,7 +102,7 @@ with st.form(key='my_form'):
         pkl_ps.close()
         X_test['PROVINCE_SHOP'] = le_ps.transform(X_test['PROVINCE_SHOP'])
 
-        dummies_frame = ['PROVINCE_SHOP', 'DESCRIPTION_x', 'WORKPLACE_CODE', 'INDUSTRY_NM',
+        dummies_frame = ['PROVINCE_SHOP', 'DESCRIPTION', 'WORKPLACE_TYPE', 'INDUSTRY_NM',
        'STATUS', 'NUMBER_OF_CHILD', 'LOAN_PURPOSE_NAME', 'DISTANCE',
        'IS_BAD_DEBT', 'PACKAGE_CODE_F88', 'IS_CUSTOMER_NEW_0_1', 'INCOME',
        'MONEY_APPRAISAL', 'AGE', 'AREA_Miền Bắc', 'AREA_Miền Nam',
@@ -111,10 +110,11 @@ with st.form(key='my_form'):
        'CATEGORYNAME_Đăng ký Ô tô', 'PAPERTYPE_KHÁC', 'PAPERTYPE_KT1',
        'PAPERTYPE_KT3', 'KENH_AGENT E2E', 'KENH_Agent', 'KENH_DRS', 'KENH_E2E',
        'KENH_KDML', 'KENH_Recall E2E', 'LOAI_KHACH_HANG_Cá nhân',
-       'LOAI_KHACH_HANG_Tổ chức', 'LOAI_HINH_CU_TRU_KT1',
-       'LOAI_HINH_CU_TRU_KT3', 'LOAI_HINH_CU_TRU_other', 'MARITAL_ID_20021.0',
-       'MARITAL_ID_20022.0', 'MARITAL_ID_20023.0', 'MARITAL_ID_20024.0',
-       'MARITAL_ID_20025.0', 'MARITAL_ID_UnKnown', 'JOB_NM_Bác sĩ/Kỹ sư',
+       'LOAI_KHACH_HANG_Tổ chức', 
+       'LOAI_HINH_CU_TRU_Cư Trú', 'LOAI_HINH_CU_TRU_Thường Trú', 'LOAI_HINH_CU_TRU_Tạm Trú', 
+       'MARITAL_STATUS_Góa phụ',
+       'MARITAL_STATUS_Chưa có gia đình', 'MARITAL_STATUS_Có gia đình', 'MARITAL_STATUS_Li dị chưa con',
+       'MARITAL_STATUS_Li dị có con', 'MARITAL_STATUS_UnKnown', 'JOB_NM_Bác sĩ/Kỹ sư',
        'JOB_NM_Bán hàng', 'JOB_NM_Bảo vệ', 'JOB_NM_Công nhân/Thợ',
        'JOB_NM_Giúp việc/Tạp vụ/ Vệ sinh', 'JOB_NM_Không xác định',
        'JOB_NM_Nhân viên văn phòng', 'JOB_NM_Quản lý/Chủ Doanh nghiệp',
@@ -127,7 +127,7 @@ with st.form(key='my_form'):
        'RESIDENCE_TIME_3 –> 5 năm', 'RESIDENCE_TIME_> 5 năm',
        'RESIDENCE_TIME_Không chia sẻ', 'RESIDENCE_TIME_Không xác định']
         X_test = X_test.reindex(columns = dummies_frame, fill_value=0)
-        X_test = X_test[['PROVINCE_SHOP', 'DESCRIPTION_x', 'WORKPLACE_CODE', 'INDUSTRY_NM',
+        X_test = X_test[['PROVINCE_SHOP', 'DESCRIPTION', 'WORKPLACE_TYPE', 'INDUSTRY_NM',
        'STATUS', 'NUMBER_OF_CHILD', 'LOAN_PURPOSE_NAME', 'DISTANCE',
        'IS_BAD_DEBT', 'PACKAGE_CODE_F88', 'IS_CUSTOMER_NEW_0_1', 'INCOME',
        'MONEY_APPRAISAL', 'AGE', 'AREA_Miền Bắc', 'AREA_Miền Nam',
@@ -135,10 +135,11 @@ with st.form(key='my_form'):
        'CATEGORYNAME_Đăng ký Ô tô', 'PAPERTYPE_KHÁC', 'PAPERTYPE_KT1',
        'PAPERTYPE_KT3', 'KENH_AGENT E2E', 'KENH_Agent', 'KENH_DRS', 'KENH_E2E',
        'KENH_KDML', 'KENH_Recall E2E', 'LOAI_KHACH_HANG_Cá nhân',
-       'LOAI_KHACH_HANG_Tổ chức', 'LOAI_HINH_CU_TRU_KT1',
-       'LOAI_HINH_CU_TRU_KT3', 'LOAI_HINH_CU_TRU_other', 'MARITAL_ID_20021.0',
-       'MARITAL_ID_20022.0', 'MARITAL_ID_20023.0', 'MARITAL_ID_20024.0',
-       'MARITAL_ID_20025.0', 'MARITAL_ID_UnKnown', 'JOB_NM_Bác sĩ/Kỹ sư',
+       'LOAI_KHACH_HANG_Tổ chức', 
+       'LOAI_HINH_CU_TRU_Cư Trú', 'LOAI_HINH_CU_TRU_Thường Trú', 'LOAI_HINH_CU_TRU_Tạm Trú', 
+       'MARITAL_STATUS_Góa phụ',
+       'MARITAL_STATUS_Chưa có gia đình', 'MARITAL_STATUS_Có gia đình', 'MARITAL_STATUS_Li dị chưa con',
+       'MARITAL_STATUS_Li dị có con', 'MARITAL_STATUS_UnKnown', 'JOB_NM_Bác sĩ/Kỹ sư',
        'JOB_NM_Bán hàng', 'JOB_NM_Bảo vệ', 'JOB_NM_Công nhân/Thợ',
        'JOB_NM_Giúp việc/Tạp vụ/ Vệ sinh', 'JOB_NM_Không xác định',
        'JOB_NM_Nhân viên văn phòng', 'JOB_NM_Quản lý/Chủ Doanh nghiệp',
