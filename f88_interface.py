@@ -48,9 +48,9 @@ df = df[['CREATE_DATE','AREA', 'CATEGORYNAME', 'PAPERTYPE', 'PROVINCE_SHOP',
 
 def NPL(value):
     if value == 1:
-        return "Bad Debt (Non-Performing Loan)"
+        return "Non-Performing Loan"
     else:
-        return "Good Debt"
+        return "Performing Loan"
 
 with st.form(key='my_form'):
     
